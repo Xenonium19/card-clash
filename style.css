@@ -156,7 +156,7 @@ main { flex: 1; overflow-y: auto; }
 }
 
 /* ============ DECK BUILDER ============ */
-.deck-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(clamp(110px, 13vw, 150px), 1fr)); gap: 12px; }
+.deck-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(clamp(96px, 10vw, 130px), 1fr)); gap: 10px; }
 .deck-slot { position: relative; }
 .deck-slot.empty {
   aspect-ratio: 3 / 4.3; border: 3px dashed #3a4569; border-radius: 12px;
@@ -171,14 +171,17 @@ main { flex: 1; overflow-y: auto; }
 }
 
 /* ============ BATTLE SCREEN ============ */
-#screen-battle { display: none; max-width: 900px; }
-#screen-battle.active { display: flex; flex-direction: column; gap: 6px; }
+#screen-battle { max-width: 1150px; }
+.battle-flex { display: flex; gap: 12px; align-items: stretch; }
+.battle-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
 .battle-head { display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
-.hero-bar { display: flex; align-items: center; gap: 10px; }
-.hero-label { font-weight: 700; white-space: nowrap; font-size: 14px; }
-.hero-hp { flex: 1; height: 20px; background: #0a0d14; border-radius: 10px; position: relative; overflow: hidden; border: 1px solid #2b3350; }
-.hero-hpfill { height: 100%; background: linear-gradient(90deg, #38c96b, #7ee081); transition: width .3s; }
-.hero-hptext { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; text-shadow: 0 1px 2px #000; }
+.side-info {
+  display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+  background: var(--panel); border: 1px solid #2b3350; border-radius: 8px;
+  padding: 5px 10px; font-size: 12px; color: var(--muted);
+}
+.side-info b { color: var(--txt); }
+.side-info.inline { background: transparent; border: none; padding: 0; }
 
 .board { display: flex; flex-direction: column; gap: 4px; }
 .brow { display: flex; align-items: center; gap: 8px; }
@@ -222,7 +225,13 @@ main { flex: 1; overflow-y: auto; }
 }
 .battle-log {
   background: #0a0d14; border: 1px solid #2b3350; border-radius: 10px;
-  padding: 8px 10px; height: 96px; overflow-y: auto; font-size: 12px; color: var(--muted);
+  padding: 8px 10px; width: 240px; flex-shrink: 0; max-height: calc(100vh - 120px);
+  overflow-y: auto; font-size: 12px; color: var(--muted); align-self: stretch;
+}
+.battle-log div { padding: 1px 0; border-bottom: 1px solid #ffffff08; }
+@media (max-width: 820px) {
+  .battle-flex { flex-direction: column; }
+  .battle-log { width: 100%; height: 110px; max-height: 110px; }
 }
 
 /* ============ CAMPAIGN ============ */

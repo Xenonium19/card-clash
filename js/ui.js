@@ -68,28 +68,22 @@ function cardHTML(heroId, opts = {}) {
     <div class="crow">${ROW_NAMES[h.level]} · ${RARITY_LABEL[h.rarity]}</div>
     <div class="cart">${h.emoji}</div>
     <div class="cab">${h.ability}</div>
-    <div class="cstats"><span>⚔ ${st.dmg}</span><span>❤ ${st.hp}</span><span>⏳ ${h.cd}</span></div>
+    <div class="cstats"><span>⚔ ${st.dmg}</span><span>❤ ${st.hp}</span></div>
     ${opts.locked ? '' : `<div class="cstars">${stars}</div>`}
     <div class="cgear" title="${gear ? gear.name : 'Empty gear slot'}">${gear ? gear.emoji : '◌'}</div>
   </div>`;
 }
 
-// ============ BATTLE HUB (deck + quick battle) ============
+// ============ BATTLE HUB (quick battle) ============
 
 function renderBattleHub() {
-  const slots = S.deck.map((id, i) => {
-    if (!id) return `<div class="deck-slot empty" onclick="openDeckPicker(${i})">＋</div>`;
-    return `<div class="deck-slot">
-      ${cardHTML(id, { fusion: S.collection[id].fusion, gearId: S.collection[id].gear, onclick: `openDeckPicker(${i})` })}
-      <button class="slot-x" onclick="removeDeckSlot(${i})">✕</button>
-    </div>`;
-  }).join('');
+  const n = S.deck.filter(Boolean).length;
   document.getElementById('screen-battlehub').innerHTML = `
     <h1>⚔️ Battle</h1>
     <div class="panel">
-      <div class="panel-head"><h2>Your Deck (6 heroes)</h2><button class="btn btn-small" onclick="autoDeck()">Auto-fill</button></div>
-      <p class="hint">Lv1 heroes fight in the melee row, Lv2 in the mid row, Lv3 in the ranged row — each row has only 2 slots, so mix your levels!</p>
-      <div class="deck-grid">${slots}</div>
+      <div class="panel-head"><h2>🎴 Your Deck: ${n} / ${DECK_SIZE} heroes</h2>
+      <button class="btn btn-small" onclick="switchTab('collection')">Edit Deck</button></div>
+      <p class="hint">Build your deck at the top of the <b>Collection</b> tab (minimum ${DECK_MIN}). In battle you hold ${HAND_SIZE} random cards and draw a new one each time you play a hero. Fallen heroes are gone for the whole battle — bring backups!</p>
     </div>
     <div class="panel">
       <h2>Quick Battle</h2>
@@ -102,11 +96,30 @@ function renderBattleHub() {
     </div>`;
 }
 
+// ============ DECK BUILDER (lives at the top of Collection) ============
+
+function deckBuilderHTML() {
+  const slots = S.deck.map((id, i) => {
+    if (!id) return `<div class="deck-slot empty" onclick="openDeckPicker(${i})">＋</div>`;
+    return `<div class="deck-slot">
+      ${cardHTML(id, { fusion: S.collection[id].fusion, gearId: S.collection[id].gear, small: true, onclick: `openDeckPicker(${i})` })}
+      <button class="slot-x" onclick="removeDeckSlot(${i})">✕</button>
+    </div>`;
+  }).join('');
+  const n = S.deck.filter(Boolean).length;
+  return `<div class="panel">
+    <div class="panel-head"><h2>🎴 Deck Builder · ${n} / ${DECK_SIZE} ${n < DECK_MIN ? `(need at least ${DECK_MIN}!)` : ''}</h2>
+    <button class="btn btn-small" onclick="autoDeck()">Auto-fill</button></div>
+    <p class="hint">${HAND_SIZE} random cards from this deck form your battle hand; playing a hero draws the next card. Each board row has only 2 slots and the dead don't return — bring backups for every level!</p>
+    <div class="deck-grid">${slots}</div>
+  </div>`;
+}
+
 function removeDeckSlot(i) {
   event.stopPropagation();
   S.deck[i] = null;
   saveGame();
-  renderBattleHub();
+  renderCollection();
 }
 
 function openDeckPicker(i) {
@@ -127,25 +140,25 @@ function chooseDeckHero(i, heroId) {
   S.deck[i] = heroId;
   saveGame();
   closeModal();
-  renderBattleHub();
+  renderCollection();
 }
 
 function autoDeck() {
   const owned = Object.keys(S.collection);
   const score = id => RARITY_ORDER.indexOf(HERO_BY_ID[id].rarity) * 10 + S.collection[id].fusion;
   const deck = [];
-  // aim for 2 heroes per level, strongest first
+  // aim for 4 heroes per level (2 slots + backups), strongest first
   for (const lvl of [1, 2, 3]) {
     const pool = owned.filter(id => HERO_BY_ID[id].level === lvl).sort((a, b) => score(b) - score(a));
-    deck.push(...pool.slice(0, 2));
+    deck.push(...pool.slice(0, 4));
   }
   // fill leftovers with strongest remaining
   const rest = owned.filter(id => !deck.includes(id)).sort((a, b) => score(b) - score(a));
-  while (deck.length < 6 && rest.length) deck.push(rest.shift());
-  while (deck.length < 6) deck.push(null);
-  S.deck = deck.slice(0, 6);
+  while (deck.length < DECK_SIZE && rest.length) deck.push(rest.shift());
+  while (deck.length < DECK_SIZE) deck.push(null);
+  S.deck = deck.slice(0, DECK_SIZE);
   saveGame();
-  renderBattleHub();
+  renderCollection();
 }
 
 // ============ CAMPAIGN ============
@@ -224,6 +237,7 @@ function renderCollection() {
   }).join('');
   document.getElementById('screen-collection').innerHTML = `
     <h1>🃏 Collection <span class="count">${ownedCount()} / ${HEROES.length}</span></h1>
+    ${deckBuilderHTML()}
     <div class="panel"><h2>🎒 Gear bag</h2><div class="gear-bag">${gearList}</div>
     <p class="hint">Earn gear in the Tower (every 3rd floor). Click one of your heroes to equip. Gear matching the hero's level gives <b>double</b> the bonus!</p></div>
     <div class="grid-cards">${cards}</div>`;

@@ -11,34 +11,33 @@ const RARITY_LABEL = {
 const EVENT_NAME = 'Solar Festival ☀️';
 
 // level: which board row the card can be deployed to (1 melee, 2 mid, 3 ranged)
-// cd: cooldown in turns before the hero can be redeployed after dying
 const HEROES = [
   // ---- Level 1 · Melee ----
-  { id:'warrior',        name:'Warrior',          level:1, rarity:'common',    dmg:12, hp:60,  cd:2, emoji:'⚔️', ability:'Cleave (soon)' },
-  { id:'shieldbearer',   name:'Shield Bearer',    level:1, rarity:'common',    dmg:8,  hp:85,  cd:2, emoji:'🛡️', ability:'Taunt (soon)' },
-  { id:'knight',         name:'Knight',           level:1, rarity:'uncommon',  dmg:16, hp:100, cd:3, emoji:'🤺', ability:'Charge (soon)' },
-  { id:'berserker',      name:'Berserker',        level:1, rarity:'rare',      dmg:24, hp:110, cd:3, emoji:'🪓', ability:'Rage below 50% HP (soon)' },
-  { id:'paladin',        name:'Paladin',          level:1, rarity:'epic',      dmg:28, hp:150, cd:4, emoji:'⚜️', ability:'Heals allies (soon)' },
-  { id:'dragonknight',   name:'Dragon Knight',    level:1, rarity:'elite',     dmg:38, hp:185, cd:4, emoji:'🐉', ability:'Dragon breath (soon)' },
-  { id:'shadowreaper',   name:'Shadow Reaper',    level:1, rarity:'legendary', dmg:55, hp:230, cd:5, emoji:'💀', ability:'Reaps souls on kill (soon)' },
+  { id:'warrior',        name:'Warrior',          level:1, rarity:'common',    dmg:12, hp:60,  emoji:'⚔️', ability:'Cleave (soon)' },
+  { id:'shieldbearer',   name:'Shield Bearer',    level:1, rarity:'common',    dmg:8,  hp:85,  emoji:'🛡️', ability:'Taunt (soon)' },
+  { id:'knight',         name:'Knight',           level:1, rarity:'uncommon',  dmg:16, hp:100, emoji:'🤺', ability:'Charge (soon)' },
+  { id:'berserker',      name:'Berserker',        level:1, rarity:'rare',      dmg:24, hp:110, emoji:'🪓', ability:'Rage below 50% HP (soon)' },
+  { id:'paladin',        name:'Paladin',          level:1, rarity:'epic',      dmg:28, hp:150, emoji:'⚜️', ability:'Heals allies (soon)' },
+  { id:'dragonknight',   name:'Dragon Knight',    level:1, rarity:'elite',     dmg:38, hp:185, emoji:'🐉', ability:'Dragon breath (soon)' },
+  { id:'shadowreaper',   name:'Shadow Reaper',    level:1, rarity:'legendary', dmg:55, hp:230, emoji:'💀', ability:'Reaps souls on kill (soon)' },
   // ---- Level 2 · Mid ----
-  { id:'spearman',       name:'Spearman',         level:2, rarity:'common',    dmg:11, hp:50,  cd:2, emoji:'🔱', ability:'Pierce (soon)' },
-  { id:'slinger',        name:'Slinger',          level:2, rarity:'common',    dmg:10, hp:45,  cd:2, emoji:'🪃', ability:'Ricochet (soon)' },
-  { id:'monk',           name:'Monk',             level:2, rarity:'uncommon',  dmg:14, hp:65,  cd:3, emoji:'🧘', ability:'Inner peace (soon)' },
-  { id:'battlemage',     name:'Battle Mage',      level:2, rarity:'rare',      dmg:22, hp:60,  cd:3, emoji:'🔮', ability:'Arcane bolt (soon)' },
-  { id:'witch',          name:'Witch',            level:2, rarity:'epic',      dmg:30, hp:75,  cd:4, emoji:'🧙', ability:'Hex (soon)' },
-  { id:'nightassassin',  name:'Night Assassin',   level:2, rarity:'elite',     dmg:42, hp:70,  cd:5, emoji:'🗡️', ability:'Backstab (soon)' },
-  { id:'phoenixqueen',   name:'Phoenix Queen',    level:2, rarity:'legendary', dmg:60, hp:120, cd:5, emoji:'🔥', ability:'Rebirth once (soon)' },
-  { id:'solarchampion',  name:'Solar Champion',   level:2, rarity:'event',     dmg:50, hp:110, cd:4, emoji:'☀️', ability:'Solar flare (soon)' },
+  { id:'spearman',       name:'Spearman',         level:2, rarity:'common',    dmg:11, hp:50,  emoji:'🔱', ability:'Pierce (soon)' },
+  { id:'slinger',        name:'Slinger',          level:2, rarity:'common',    dmg:10, hp:45,  emoji:'🪃', ability:'Ricochet (soon)' },
+  { id:'monk',           name:'Monk',             level:2, rarity:'uncommon',  dmg:14, hp:65,  emoji:'🧘', ability:'Inner peace (soon)' },
+  { id:'battlemage',     name:'Battle Mage',      level:2, rarity:'rare',      dmg:22, hp:60,  emoji:'🔮', ability:'Arcane bolt (soon)' },
+  { id:'witch',          name:'Witch',            level:2, rarity:'epic',      dmg:30, hp:75,  emoji:'🧙', ability:'Hex (soon)' },
+  { id:'nightassassin',  name:'Night Assassin',   level:2, rarity:'elite',     dmg:42, hp:70,  emoji:'🗡️', ability:'Backstab (soon)' },
+  { id:'phoenixqueen',   name:'Phoenix Queen',    level:2, rarity:'legendary', dmg:60, hp:120, emoji:'🔥', ability:'Rebirth once (soon)' },
+  { id:'solarchampion',  name:'Solar Champion',   level:2, rarity:'event',     dmg:50, hp:110, emoji:'☀️', ability:'Solar flare (soon)' },
   // ---- Level 3 · Ranged ----
-  { id:'archer',         name:'Archer',           level:3, rarity:'common',    dmg:13, hp:35,  cd:2, emoji:'🏹', ability:'Double shot (soon)' },
-  { id:'crossbowman',    name:'Crossbowman',      level:3, rarity:'common',    dmg:14, hp:32,  cd:3, emoji:'🎯', ability:'Piercing bolt (soon)' },
-  { id:'cannoneer',      name:'Cannoneer',        level:3, rarity:'uncommon',  dmg:20, hp:40,  cd:3, emoji:'💣', ability:'Splash damage (soon)' },
-  { id:'sniper',         name:'Sniper',           level:3, rarity:'rare',      dmg:30, hp:38,  cd:4, emoji:'🔭', ability:'Headshot (soon)' },
-  { id:'frostwizard',    name:'Frost Wizard',     level:3, rarity:'epic',      dmg:34, hp:55,  cd:4, emoji:'❄️', ability:'Freeze (soon)' },
-  { id:'stormcaller',    name:'Storm Caller',     level:3, rarity:'elite',     dmg:45, hp:65,  cd:5, emoji:'⛈️', ability:'Chain lightning (soon)' },
-  { id:'moonpriestess',  name:'Moon Priestess',   level:3, rarity:'event',     dmg:48, hp:85,  cd:4, emoji:'🌙', ability:'Lunar blessing (soon)' },
-  { id:'celestialdragon',name:'Celestial Dragon', level:3, rarity:'mythical',  dmg:80, hp:150, cd:6, emoji:'🌌', ability:'Starfall (soon)' },
+  { id:'archer',         name:'Archer',           level:3, rarity:'common',    dmg:13, hp:35,  emoji:'🏹', ability:'Double shot (soon)' },
+  { id:'crossbowman',    name:'Crossbowman',      level:3, rarity:'common',    dmg:14, hp:32,  emoji:'🎯', ability:'Piercing bolt (soon)' },
+  { id:'cannoneer',      name:'Cannoneer',        level:3, rarity:'uncommon',  dmg:20, hp:40,  emoji:'💣', ability:'Splash damage (soon)' },
+  { id:'sniper',         name:'Sniper',           level:3, rarity:'rare',      dmg:30, hp:38,  emoji:'🔭', ability:'Headshot (soon)' },
+  { id:'frostwizard',    name:'Frost Wizard',     level:3, rarity:'epic',      dmg:34, hp:55,  emoji:'❄️', ability:'Freeze (soon)' },
+  { id:'stormcaller',    name:'Storm Caller',     level:3, rarity:'elite',     dmg:45, hp:65,  emoji:'⛈️', ability:'Chain lightning (soon)' },
+  { id:'moonpriestess',  name:'Moon Priestess',   level:3, rarity:'event',     dmg:48, hp:85,  emoji:'🌙', ability:'Lunar blessing (soon)' },
+  { id:'celestialdragon',name:'Celestial Dragon', level:3, rarity:'mythical',  dmg:80, hp:150, emoji:'🌌', ability:'Starfall (soon)' },
 ];
 const HERO_BY_ID = Object.fromEntries(HEROES.map(h => [h.id, h]));
 
@@ -84,3 +83,7 @@ const CAMPAIGN = [
 
 const FUSION_MAX = 5;
 const FUSION_BONUS = 0.12; // +12% dmg & hp per fusion star
+
+const DECK_SIZE = 12;  // max heroes in a deck
+const DECK_MIN = 6;    // minimum heroes to start a battle
+const HAND_SIZE = 6;   // cards in hand during battle; refills from deck as you play

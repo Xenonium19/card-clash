@@ -10,7 +10,7 @@ function defaultSave() {
     gold: 800, gems: 60, tokens: 0,
     collection,                      // heroId -> { fusion, gear }
     gearInv: {},                     // gearId -> unequipped count
-    deck: STARTER_HEROES.slice(),    // 6 heroIds (or null in empty slots)
+    deck: STARTER_HEROES.concat(Array(DECK_SIZE - STARTER_HEROES.length).fill(null)), // 12 heroId slots (null = empty)
     campaignCleared: 0,
     towerBest: 0,
     arena: { dailyDate: '', dailyLeft: 3, weeklyKey: '', weeklyLeft: 3 },
@@ -22,6 +22,9 @@ function loadSave() {
     const raw = localStorage.getItem(SAVE_KEY);
     S = raw ? Object.assign(defaultSave(), JSON.parse(raw)) : defaultSave();
   } catch (e) { S = defaultSave(); }
+  // migrate old saves to the 12-slot deck
+  while (S.deck.length < DECK_SIZE) S.deck.push(null);
+  S.deck = S.deck.slice(0, DECK_SIZE);
   resetArenaIfNeeded();
   saveGame();
 }
@@ -65,7 +68,7 @@ function computeStats(heroId, fusion, gearId, power = 1) {
   return { dmg: Math.round(dmg * power), hp: Math.round(hp * power) };
 }
 
-function deckReady() { return S.deck.filter(Boolean).length === 6; }
+function deckReady() { return S.deck.filter(Boolean).length >= DECK_MIN; }
 
 // ---- gear ----
 
