@@ -14,7 +14,7 @@ const DEPLOYS_PER_TURN = 3;
 function makeUnit(heroId, fusion, gearId, power) {
   const h = HERO_BY_ID[heroId];
   const st = computeStats(heroId, fusion, gearId, power);
-  return { heroId, name: h.name, emoji: h.emoji, level: h.level, rarity: h.rarity,
+  return { heroId, name: h.name, emoji: h.emoji, art: h.art, level: h.level, rarity: h.rarity,
            dmg: st.dmg, hp: st.hp, maxHp: st.hp };
 }
 
@@ -235,7 +235,7 @@ function unitChipHTML(u, clickable, level, slot) {
   }
   const pct = Math.max(0, Math.round(u.hp / u.maxHp * 100));
   return `<div class="slot filled r-${u.rarity}">
-    <div class="u-emoji">${u.emoji}</div>
+    <div class="u-emoji">${u.art ? `<img src="${u.art}" alt="${u.name}">` : u.emoji}</div>
     <div class="u-name">${u.name}</div>
     <div class="u-hpbar"><div class="u-hpfill" style="width:${pct}%"></div></div>
     <div class="u-stats">⚔${u.dmg} ❤${u.hp}</div>
@@ -250,7 +250,7 @@ function boardRowHTML(side, level, clickable) {
 function benchCardHTML(u, i) {
   const sel = B.selected === i ? 'selected' : '';
   return `<div class="bench-card r-${u.rarity} ${sel}" onclick="selectBench(${i})">
-    <div class="u-emoji">${u.emoji}</div>
+    <div class="u-emoji">${u.art ? `<img src="${u.art}" alt="${u.name}">` : u.emoji}</div>
     <div class="u-name">${u.name}</div>
     <div class="u-stats">⚔${u.dmg} ❤${u.maxHp}</div>
     <div class="u-row">L${u.level}</div>

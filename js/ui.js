@@ -66,7 +66,7 @@ function cardHTML(heroId, opts = {}) {
       ${opts.onclick ? `onclick="${opts.onclick}"` : ''}>
     <div class="cname">${h.name}</div>
     <div class="crow">${ROW_NAMES[h.level]} · ${RARITY_LABEL[h.rarity]}</div>
-    <div class="cart">${h.emoji}</div>
+    <div class="cart ${h.art ? 'has-art' : ''}">${h.art ? `<img src="${h.art}" alt="${h.name}">` : h.emoji}</div>
     <div class="cab">${h.ability}</div>
     <div class="cstats"><span>⚔ ${st.dmg}</span><span>❤ ${st.hp}</span></div>
     ${opts.locked ? '' : `<div class="cstars">${stars}</div>`}

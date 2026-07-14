@@ -13,7 +13,7 @@ const EVENT_NAME = 'Solar Festival ☀️';
 // level: which board row the card can be deployed to (1 melee, 2 mid, 3 ranged)
 const HEROES = [
   // ---- Level 1 · Melee ----
-  { id:'warrior',        name:'Warrior',          level:1, rarity:'common',    dmg:12, hp:60,  emoji:'⚔️', ability:'Cleave (soon)' },
+  { id:'warrior',        name:'Warrior',          level:1, rarity:'common',    dmg:12, hp:60,  emoji:'⚔️', art:'assets/heroes/warrior.jpg', ability:'Cleave (soon)' },
   { id:'shieldbearer',   name:'Shield Bearer',    level:1, rarity:'common',    dmg:8,  hp:85,  emoji:'🛡️', ability:'Taunt (soon)' },
   { id:'knight',         name:'Knight',           level:1, rarity:'uncommon',  dmg:16, hp:100, emoji:'🤺', ability:'Charge (soon)' },
   { id:'berserker',      name:'Berserker',        level:1, rarity:'rare',      dmg:24, hp:110, emoji:'🪓', ability:'Rage below 50% HP (soon)' },
